@@ -1,0 +1,11 @@
+.crypto__name {
+    display: inline;
+    position: relative;
+    top: -6px;
+    left: 5px;
+}
+
+.crypto__tab {
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -1,0 +1,42 @@
+.text-field__input {
+    border: none;
+    padding: 10px 10px 10px 10px;
+    background-color: transparent;
+    font-size: 32px;
+}
+
+.text-field__input:focus { 
+    outline: none; 
+}
+
+.text-field__title {
+    position: relative;
+    top: -35px;
+    transition: transform 0.2s;
+    padding-left: 10px;
+    font-size: 20px;
+    color: #bbb;
+}
+.text-field__title.selected {
+    position: relative;
+    transform: translateY(-50px);
+}
+
+.text-field__wrapper {
+    padding-top: 30px;
+    padding-bottom: 5px;   
+}
+
+.text-field__container {
+    display: inline-block;
+    padding-right: 10px;
+    border-bottom: solid 1px grey;
+    transition: border 0.5s;
+    height: 65px;
+}
+
+.text-field__container.selected {
+    display: inline-block;
+    padding-right: 10px;
+    border-bottom: solid 2px blue;
+}

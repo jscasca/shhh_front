@@ -1,0 +1,88 @@
+.message__wrapper {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top:20px;
+    
+}
+.message__card {
+    background-color: #eee;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 70%;
+    border-radius: 10px;
+    box-shadow: 0px 7px 5px 4px rgba(0,0,0,0.13);
+    transform: translateY(-10px);
+    transition: transform linear 1s 1s;
+    min-width: 605px;
+    min-height: 455px;
+}
+
+.message_icon {
+    width: 100%;
+    text-align: center;
+}
+
+.lock {
+    color: #f2b21d;
+    font-size: 300px !important;
+}
+
+.success {
+    color: #339650;
+    font-size: 300px !important;
+}
+
+.message__columns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.message__main-option {
+    display: flex;
+    justify-content: center;
+}
+
+.message_column {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.message__card-title {
+    text-align: left;
+    width: 100%;
+}
+
+.message__button-container {
+    padding-top: 50px;
+}
+
+.message__tabs {
+    display: flex;
+    padding: 20px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.message__main-option {
+    display: flex;
+    justify-content: space-around;
+}
+
+.message__step {
+    transition: opacity 1s ease-in-out;
+}
+.message__step.hide {
+    max-height: 0;
+    display: none;
+    animation: hide 1s ease 3.5s forwards;
+}
+
+@keyframes hide {
+    from {max-height: 1000px}
+    to {max-height: 0;}
+}
