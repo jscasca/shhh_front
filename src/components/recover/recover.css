@@ -37,6 +37,16 @@
     font-size: 300px !important;
 }
 
+.failure {
+    color: #963333;
+    font-size: 300px !important;
+}
+
+.gone {
+    color: #337296;
+    font-size: 300px !important;
+}
+
 .message__columns {
     display: flex;
     justify-content: space-around;

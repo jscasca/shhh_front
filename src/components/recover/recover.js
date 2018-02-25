@@ -16,36 +16,28 @@ class Recover extends Component {
 
   sendRecover(){
     // Axios call
-    axios.post('http://localhost:3001/ok', {
-      password: this.state.password,
-      luckyNumber: this.state.luckyNumber
+    const query = new URLSearchParams(this.props.location.search);
+    axios.get('http://localhost/rich_shhh/site/content.php', {
+      params: {
+        secret: this.state.password,
+        lucky: this.state.luckyNumber,
+        i: query.get('i'),
+        code: query.get('code')
+      }
     })
     .then((response) => {
+      //load all the info
+      this.setState({f1: response.data.f1});
+      this.setState({f2: response.data.f2});
+      this.setState({f3: response.data.f3});
       this.setStep('success');
     })
     .catch((error) => {
-      this.setStep('error');
-    });
-  }
-
-  submitInfo() {
-    axios.post('http://localhost:3001/ok', {
-      user: this.state.user,
-      password: this.state.password,
-      luckyNumber: this.state.luckyNumber,
-      name: this.state.name,
-      fieldOne: this.state.fieldOne,
-      fieldTwo: this.state.fieldTwo,
-      fieldThree: this.state.fieldThree,
-      secret: this.state.secret,
-      trustee: this.state.trustee,
-      thirdParty: this.state.thirdParty
-    })
-    .then((response) => {
-      this.setStep('success');
-    })
-    .catch((error) => {
-      this.setStep('error');
+      switch(error.response.status) {
+        case 410: this.setStep('gone'); break;
+        case 401: case 403: this.setStep('failure'); break;
+        default: this.setStep('error');
+      }
     });
   }
 
@@ -102,10 +94,25 @@ class Recover extends Component {
               <div className="message_icon"><i class="fa fa-check-circle success" aria-hidden="true"></i></div>
               <h2>Here's your info</h2>
             </div>
+            <p>Field One: {this.state.f1}</p>
+            <p>Filed Two: {this.state.f2}</p>
+            <p>Field Three: {this.state.f3}</p>
           </div>
           <div className={this.state.step === "error" ? "message__step" : "message__step hide"}>
             <div className="message__card-title">
               <h2>An error has occured. Please try again later</h2>
+            </div>
+          </div>
+          <div className={this.state.step === "failure" ? "message__step" : "message__step hide"}>
+            <div className="message__card-title">
+              <div className="message_icon"><i class="fa fa-times-circle failure" aria-hidden="true"></i></div>
+              <h2>The keys do not seem to match</h2>
+            </div>
+          </div>
+          <div className={this.state.step === "gone" ? "message__step" : "message__step hide"}>
+            <div className="message__card-title">
+              <div className="message_icon"><i class="fa fa-cloud gone" aria-hidden="true"></i></div>
+              <h2>The resource has been moved. Start a new claim</h2>
             </div>
           </div>
         </div>
