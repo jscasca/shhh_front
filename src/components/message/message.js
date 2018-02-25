@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import TextField from '../text-field/text-field';
 import Button from '../button/button';
-import CryptoTab from '../crypto-tab/crypto-tab';
+//import CryptoTab from '../crypto-tab/crypto-tab';
 import './message.css';
 
 class Message extends Component {
@@ -26,7 +26,9 @@ class Message extends Component {
 
   sendRecover(){
     // Axios call
-    axios.post('http://localhost:3001/ok', {"name": "Erik"})
+    axios.get('http://localhost/rich_shhh/site/retrieve.php', {
+      params: {name: this.state.name, user: this.state.user}
+    })
     .then((response) => {
       this.setStep('sentEmail');
     })
@@ -35,18 +37,35 @@ class Message extends Component {
     });
   }
 
-  submitInfo() {
-    axios.post('http://localhost:3001/ok', {
+  /*sendRecover(){
+    // Axios call
+    axios.post('http://localhost/rich_shhh/site/retrieve.php', {
       user: this.state.user,
-      password: this.state.password,
-      luckyNumber: this.state.luckyNumber,
-      name: this.state.name,
-      fieldOne: this.state.fieldOne,
-      fieldTwo: this.state.fieldTwo,
-      fieldThree: this.state.fieldThree,
-      secret: this.state.secret,
-      trustee: this.state.trustee,
-      thirdParty: this.state.thirdParty
+      name: this.state.name
+    })
+    .then((response) => {
+      this.setStep('sentEmail');
+    })
+    .catch((error) => {
+      this.setStep('error');
+    });
+  }*/
+
+  submitInfo() {
+    axios.get('http://localhost/rich_shhh/site/store.php', {
+      params: {
+        user: this.state.user,
+        lucky: this.state.luckyNumber,
+        name: this.state.name,
+        content: JSON.stringify({"f1": this.state.fieldOne, "f2": this.state.fieldTwo, "f3": this.state.fieldThree}),
+        //fieldOne: this.state.fieldOne,
+        //fieldTwo: this.state.fieldTwo,
+        //fieldThree: this.state.fieldThree,
+        secret: this.state.password,
+        extras: JSON.stringify({"witnesses":[this.state.thirdParty], "trustees": [this.state.trustee]}),
+        trustee: this.state.trustee,
+        thirdParty: this.state.thirdParty
+      }
     })
     .then((response) => {
       this.setStep('success');
@@ -88,6 +107,12 @@ class Message extends Component {
     } else {
       this.setStep('infoName');
     }
+  }
+
+  skipThirdParties() {
+    this.setState({trustee: undefined});
+    this.setState({thirdParty: undefined});
+    this.setState({step: 'review'});
   }
 
   setStep(step) {
@@ -141,7 +166,7 @@ class Message extends Component {
       <div className="message__wrapper">
         <div className="message__card">
           <div className={this.state.step === "action" ? "message__step" : "message__step hide"}>
-            <div className="message_icon"><i class="fa fa-lock fa-6 lock" aria-hidden="true"></i></div>
+            <div className="message_icon"><i className="fa fa-lock fa-6 lock" aria-hidden="true"></i></div>
             <div className="message__card-title">
               <h2>1 - What do you want to do?</h2>
               <div className="message__main-option">
@@ -206,6 +231,7 @@ class Message extends Component {
             </div>
             <div className="message__button-container">
               <Button label="Next" color="red" route="/test" icon="arrow" onClick={this.setStep.bind(this, 'review')}></Button>
+              <Button label="Skip" color="blue" route="/test" icon="arrow" onClick={this.skipThirdParties.bind(this)}></Button>
             </div>
           </div>
           <div className={this.state.step === "review" ? "message__step" : "message__step hide"}>
@@ -216,21 +242,21 @@ class Message extends Component {
             <p>Field One: {this.state.fieldOne}</p>
             <p>Filed Two: {this.state.fieldTwo}</p>
             <p>Field Three: {this.state.fieldThree}</p>
-            <p>Trustee: {this.state.trustee}</p>
-            <p>Third Party: {this.state.thirdParty}</p>
+            <p>Trustee: {this.state.trustee === undefined ? 'N/A' : this.state.trustee}</p>
+            <p>Third Party: {this.state.thirdParty === undefined ? 'N/A' : this.state.thirdParty}</p>
             <div className="message__button-container">
               <Button label="Submit" color="red" route="/test" icon="arrow" onClick={this.submitInfo.bind(this)}></Button>
             </div>
           </div>
           <div className={this.state.step === "success" ? "message__step" : "message__step hide"}>
             <div className="message__card-title">
-              <div className="message_icon"><i class="fa fa-check-circle success" aria-hidden="true"></i></div>
+              <div className="message_icon"><i className="fa fa-check-circle success" aria-hidden="true"></i></div>
               <h2>Your information is now stored securely</h2>
             </div>
           </div>
           <div className={this.state.step === "sentEmail" ? "message__step" : "message__step hide"}>
             <div className="message__card-title">
-            <div className="message_icon"><i class="fa fa-check-circle success" aria-hidden="true"></i></div>
+            <div className="message_icon"><i className="fa fa-check-circle success" aria-hidden="true"></i></div>
               <h2>We sent you an email. Please follow the instructions to receive your information.</h2>
             </div>
           </div>

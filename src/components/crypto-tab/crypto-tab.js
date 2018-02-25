@@ -1,5 +1,5 @@
 import React from 'react'
-import { Btc, Eth, Xrp, Bch } from 'react-cryptocoins';
+import { Btc, Eth, Xrp/*, Bch*/ } from 'react-cryptocoins';
 
 import './crypto-tab.css'
 
@@ -14,16 +14,16 @@ class CryptoTab extends React.Component {
         switch(crypto) {
             case 'btc':
                 return <div><Btc color="#FF9E2C"/><div className="crypto__name">{this.props.text}</div></div>;
-                break;
+                //break;
             case 'eth':
                 return <div><Eth color="#3C3C3D"/><div className="crypto__name">{this.props.text}</div></div>;
-                break;
+                //break;
             case 'xrp':
                 return <div><Xrp color="#4e77ba"/><div className="crypto__name">{this.props.text}</div></div>;
-                break;
+                //break;
             case 'default':
                 return;
-                break;
+                default: return;
         }
     }
 
